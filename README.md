@@ -30,7 +30,7 @@ SLG46826V-DIPに焼くこともできます。
 - LEDを明るくしたい場合は、外部に数kΩのプルアップ抵抗をつけるか、セグメント制御端子の属性をopen drainからpush pullに変更して外部で数kΩの電流制限抵抗を挟んでください。  
 
 ## 組み立て例
-デバッグ用にブレッドボード上に実装した例。（マイコンは省略）　
+デバッグ用にブレッドボード上に実装した例。（マイコンは省略）  
 DIP版GreenPAKにかぶせるように7SEGモジュールを挿すことで、配線を最少化してみた。  
 内蔵抵抗を最大限利用して基板上は抵抗レス。内蔵抵抗だとLEDはちょっと暗い。  
 
@@ -86,18 +86,18 @@ address | W/R | default| bit | Definition
 0x75 | R | -- | [7:6] | *Reserve*
  | | | | [5] | INOUT2 input value<BR>0: Low, 1: High
  | | | | [4:0] | *Reserve*
-0x7A | W | 0x00 | [7] | OUT4 port mode select<BR> 0:Normal mode, 1:Interrupt flag mode
- | | | | [6:5] | OUT3 and INOUT2 port mode select<BR> 00:Normal mode<BR>01:Beep mode use OUT3<BR>10:Beep mode use INOUT2<BR>11:Beep mode use OUT3 and INOUT2 (Differential) 
- | | | | [4] | OUT4 port control<BR>IF Normal mode<BR> 0:output Low, 1:output & Pull-up<BR>IF Interrupt flag mode <BR> 0→1 or 1→0 toggle for reset 
- | | | | [3] | OUT3 port control<BR>IF Normal mode<BR> 0:output Low, 1:output & Pull-up<BR>IF Beep mode<BR> 0:Beep OFF, 1:Beep ON
- | | | | [2] | INOUT2 port control<BR>IF Normal mode<BR> 0:input & Pull-up, 1:output Low<BR>IF Beep mode<BR> 0:Beep OFF, 1:Beep ON
- | | | | [1] | INOUT1 port control<BR> 0:input & Pull-up, 1:output Low
- | | | | [0] | INOUT0 port control<BR> 0:input & Pull-up, 1:output Low
+0x7A | W | 0x00 | [7] | OUT4 port mode select<BR> 0: Normal mode, 1: Interrupt flag mode
+ | | | | [6:5] | OUT3 and INOUT2 port mode select<BR> 00: Normal mode<BR>01: Beep mode use OUT3<BR>10: Beep mode use INOUT2<BR>11: Beep mode use OUT3 and INOUT2 (Differential) 
+ | | | | [4] | OUT4 port control<BR>IF Normal mode<BR> 0: output Low, 1: output & Pull-up<BR>IF Interrupt flag mode <BR> 0→1 or 1→0 toggle for reset 
+ | | | | [3] | OUT3 port control<BR>IF Normal mode<BR> 0: output Low, 1: output & Pull-up<BR>IF Beep mode<BR> 0: Beep OFF, 1: Beep ON
+ | | | | [2] | INOUT2 port control<BR>IF Normal mode<BR> 0: input & Pull-up, 1: output Low<BR>IF Beep mode<BR> 0: Beep OFF, 1: Beep ON
+ | | | | [1] | INOUT1 port control<BR> 0: input & Pull-up, 1: output Low
+ | | | | [0] | INOUT0 port control<BR> 0: input & Pull-up, 1: output Low
 0x92 | W | 0x00 | [7:0] | 7segment data for digit1<BR>[7]: A<BR>[6]: B<BR>[5]: C<BR>[4]: D<BR>[3]: E<BR>[2]: F<BR>[1]: G<BR>[0]: D.P
 0x93 | W | 0x00 | [7:0] | 7segment data for digit2<BR>[7]: A<BR>[6]: B<BR>[5]: C<BR>[4]: D<BR>[3]: E<BR>[2]: F<BR>[1]: G<BR>[0]: D.P
 0xA5 | W | 0x5D | [7:0] | Beep frequency data. Default: 440Hz<BR>data = 25000000/4/frequency[Hz]-2<BR> data[7:0]
 0xA6 | W | 0x34 | [7:0] | Beep frequency data<BR> data[15:8]
-0xC8 | W | 0x00 | [7:0] | Software reset<BR>0x02:reset
+0xC8 | W | 0x00 | [7:0] | Software reset<BR>0x02: reset
     
 ## INT
 レジスタ 0x7A[7] に1を設定することで、OUT4端子からINT（割り込み）を出力します。  
@@ -108,11 +108,12 @@ address | W/R | default| bit | Definition
 
 ## BEEP
 圧電スピーカーをつなぐことで音を出すことができます。  
-レジスタ 0x7A[6] に1を設定することで、OUT3端子をBEEP端子に切り替えます。  
-この時、レジスタ 0x7A[3] でOUT3端子のBEEP出力をON/OFFすることができます。
-レジスタ 0x7A[5] に1を設定することで、INOUT2端子からBEEP信号を出力します。  
-この時、レジスタ 0x7A[2] でINOUT2端子のBEEP出力をON/OFFすることができます。
-OUT3端子とINOUT2端子の間に圧電スピーカを繋ぎ、両方の端子をBEEP端子とすることでより大きい音を出すことができます。この時、レジスタ 0x7A[3:2] の設定値で音量を切り変えることもできます。
+- レジスタ 0x7A[6] に1を設定することで、OUT3端子をBEEP端子に切り替えます。  
+この時、レジスタ 0x7A[3] でOUT3端子のBEEP出力をON/OFFすることができます。  
+- レジスタ 0x7A[5] に1を設定することで、INOUT2端子からBEEP信号を出力します。  
+この時、レジスタ 0x7A[2] でINOUT2端子のBEEP出力をON/OFFすることができます。  
+- OUT3端子とINOUT2端子の間に圧電スピーカを繋ぎ、両方の端子をBEEP端子とすることでより大きい音を出すことができます。
+  この時、レジスタ 0x7A[3:2] の設定値で音量を切り変えることもできます。
 
 レジスタ 0xA5[7:0], 0xA6[7:0] で周波数を変更することができます。初期値は440Hzです。  
 設定値は、25000000/4/周波数(Hz)-2 を計算し、結果を16ビットとして下位8ビットをレジスタ 0xA5[7:0] に、上位8ビットを 0xA6[7:0] に設定します。  
