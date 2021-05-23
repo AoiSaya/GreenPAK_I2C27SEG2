@@ -6,7 +6,7 @@ I2Cインタフェースで2桁7セグメントLEDの制御を可能にします
 SLG46826V(STQFN) または SLG46826G(TSSOP) に対応しています。   
 SLG46826V-DIPに焼くこともできます。   
 
-<img src="img/SLG46826V-DIP.jpg" width="400">  
+<img src="img/SLG46826V-DIP.JPG" width="400">  
 
 ## 機能
 - I2Cで2桁7セグメントLED の任意セグメントをON/OFF可能  
@@ -34,7 +34,7 @@ SLG46826V-DIPに焼くこともできます。
 DIP版GreenPAKにかぶせるように7SEGモジュールを挿すことで、配線を最少化してみた。  
 内蔵抵抗を最大限利用して基板上は抵抗レス。内蔵抵抗だとLEDはちょっと暗い。  
 
-<img src="img/I2C27SEG2_sample.jpg" width="400">  
+<img src="img/I2C27SEG2_sample.JPG" width="400">  
 
 ## ピンアサイン
 ピン配置は2桁7セグメントLED 5621AS（カソードコモン） 向けに設計してあります。  
